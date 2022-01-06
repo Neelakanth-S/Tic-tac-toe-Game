@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        :root{
+    --primary-color:#14bcab;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+*{
+   padding: 0;
+   margin: 0;
+}
+body{ 
+    background: url('./1.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    font-family: 'roboto';
+    background-color: #14bcab;
+}
+.container{
+    width: 500px;
+    height: 500px;
+    padding: 10px;
+    background: lightyellow;
+    border-radius: 15px;
+    padding-top: 20px;
+    box-shadow: 0px 0px 5px #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    
+}
+
+.utility-ctn{
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+    display: flex;
+    justify-content:space-around;
+    align-items:center ;
+}
+
+.heading{
+    color: #1e1e1e;
+    font-family: sans-serif;
+    font-size: 1.1rem;
+}
+
+.reset-btn{
+    background-color: transparent;
+    border: none;
+    cursor:pointer;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.game-box{  
+    border: 2px solid #000;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
+    gap:10px;
+    background-color: #1e1e1e;
+}
+.cell{
+    width:110px;
+    height:110px;
+    background-color: lightyellow;
+    font-size: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+}
+
+.X::before{
+    content: "X";
+}
+.O::before{
+    content: "O";
+}
+#result{
+    position: fixed;
+    box-sizing: border-box;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px #000;
+    width: 50vw;
+    height: 80vh;
+    background-color: black;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+    animation: grow 0.8s ease-in-out;
+}
+#result > video{
+    position: fixed;
+    border-radius: 20px;
+    width: 50vw;
+    height: 80vh;
+    animation: grow 0.8s ease-in-out;
+    z-index: -1;
+}
+
+#result > span{
+    font-size: 3rem;
+    color: #fff;
+    opacity: 1;
+}
+#play-again{
+    margin: 10%;
+    cursor: pointer;
+    width: 15%;
+    height: 7%;
+}
+
+/* animations */
+@keyframes grow {
+    0% {transform: scale(0);}
+    100%{transform: scale(1);}
+}
+    </style>
+    
+</head>
+<body>
+    <div id="result">
+        <video loop autoplay muted src="./a.mp4"></video>
+        <span id="winner">X is winner</span>
+        <button id="play-again">Play again</button>
+    </div>
+    <div class="container">
+        <h2 class="title">Tic Tac Toe</h2>
+        <div class="utility-ctn">
+            <h2 class="heading">X turn's</h2>
+            <button class="reset-btn">Reset</button>
+        </div>
+        <div class="game-box">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            
+        </div>
+    </div>
+   
+   
+  <script>
+      const heading = document.querySelector('.heading')
+const resetButton =document.querySelector('.reset-btn') 
+const gameCells = document.querySelectorAll('.cell')
+
+
+var isXturn=true;
+var count =0;
+
+const checkGameStatus=()=>{
+    const index0ClassList=gameCells[0].classList;
+    const index1ClassList=gameCells[1].classList;
+    const index2ClassList=gameCells[2].classList;
+    const index3ClassList=gameCells[3].classList;
+    const index4ClassList=gameCells[4].classList;
+    const index5ClassList=gameCells[5].classList;
+    const index6ClassList=gameCells[6].classList;
+    const index7ClassList=gameCells[7].classList;
+    const index8ClassList=gameCells[8].classList;
+   
+//index 0 possible wins for o
+    if(index0ClassList.contains('O')){
+        if(index1ClassList.contains('O') && index2ClassList.contains('O')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='O is Winner';
+        }
+        else if(index4ClassList.contains('O') && index8ClassList.contains('O')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='O is Winner';
+        }
+        else if(index3ClassList.contains('O') && index6ClassList.contains('O')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='O is Winner';
+        }
+    }
+    
+
+//index 1 possible wins for o
+    if(index1ClassList.contains('O')){
+        if(index0ClassList.contains('O') && index2ClassList.contains('O')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='O is Winner';
+        }
+        else if(index4ClassList.contains('O') && index7ClassList.contains('O')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='O is Winner';
+        }
+    }
+//index 2 possible wins for 0
+    if(index2ClassList.contains('O')){
+        if(index6ClassList.contains('O') && index4ClassList.contains('O')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='O is Winner';
+        }
+        else if(index8ClassList.contains('O') && index5ClassList.contains('O')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='O is Winner';
+        }
+    }
+//index 3 possible wins for o
+    if(index3ClassList.contains('O')){
+        if(index4ClassList.contains('O') && index5ClassList.contains('O')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='O is Winner';
+        }
+    }
+//index 6 possible wins for O
+if(index6ClassList.contains('O')){
+    if(index7ClassList.contains('O') && index8ClassList.contains('O')){
+        document.getElementById('result').style.display='flex';
+        document.getElementById("winner").innerText='O is Winner';
+    }
+}
+
+
+//index 0 possible wins for X
+    if(index0ClassList.contains('X')){
+        if(index1ClassList.contains('X') && index2ClassList.contains('X')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='X is Winner';
+        }
+        else if(index4ClassList.contains('X') && index8ClassList.contains('X')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='X is Winner';
+        }
+        else if(index3ClassList.contains('X') && index6ClassList.contains('X')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='X is Winner';
+        }
+    }
+    
+
+//index 1 possible wins for X
+    if(index1ClassList.contains('X')){
+        if(index0ClassList.contains('X') && index2ClassList.contains('X')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='X is Winner';
+        }
+        else if(index4ClassList.contains('X') && index7ClassList.contains('X')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='X is Winner';
+        }
+    }
+//index 2 possible wins for X
+    if(index2ClassList.contains('X')){
+        if(index6ClassList.contains('X') && index4ClassList.contains('X')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='X is Winner';
+        }
+        else if(index8ClassList.contains('X') && index5ClassList.contains('X')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='X is Winner';
+        }
+    }
+//index 3 possible wins for X
+    if(index3ClassList.contains('X')){
+        if(index4ClassList.contains('X') && index5ClassList.contains('X')){
+            document.getElementById('result').style.display='flex';
+            document.getElementById("winner").innerText='X is Winner';
+        }
+    }
+//index 6 possible wins for X
+if(index6ClassList.contains('X')){
+    if(index7ClassList.contains('X') && index8ClassList.contains('X')){
+        document.getElementById('result').style.display='flex';
+        document.getElementById("winner").innerText='X is Winner';
+    }
+}
+}
+
+
+
+function cellHandler(event){
+   const classList= event.target.classList;
+   if(classList.length>1){
+       return;
+   }
+   if(isXturn){
+        classList.add("X")
+        isXturn=false;
+        heading.textContent="O's turn"
+
+   }else{
+       classList.add('O')
+       isXturn=true;
+       heading.textContent="X's turn"
+   }
+   count=count+1
+   console.log(count)
+   if(count >=5){
+       checkGameStatus()
+   }
+}
+
+
+
+
+
+
+for(cell of gameCells){
+    cell.addEventListener('click',cellHandler)
+}
+
+const resetHandler=()=>{
+    window.location.reload()
+}
+
+
+resetButton.addEventListener('click',resetHandler)
+document.getElementById('play-again').addEventListener('click',resetHandler)
+
+  </script>
+</body>
+</html>
